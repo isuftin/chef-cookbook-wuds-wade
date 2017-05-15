@@ -1,7 +1,7 @@
 name 'wade'
 maintainer 'Ivan Suftin'
 maintainer_email 'isuftin@usgs.gov'
-license 'all_rights'
+license 'CPL-1.0'
 description 'Creates a WaDE web server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 

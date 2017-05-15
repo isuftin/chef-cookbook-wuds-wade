@@ -6,10 +6,10 @@
 httpd_service 'wade' do
   contact node['wade']['web']['contact']
   mpm 'prefork'
-  action [:create, :start]
+  action %i[create start]
 end
 
-%w(headers rewrite substitute php ssl).each do |m|
+%w[headers rewrite substitute php ssl].each do |m|
   httpd_module m do
     action :create
   end
