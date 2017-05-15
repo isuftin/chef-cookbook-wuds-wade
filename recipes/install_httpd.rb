@@ -22,7 +22,7 @@ if Chef::Config[:solo]
 elsif Chef::DataBag.list.key?(databag_name)
   if search(databag_name, 'id:passwords').any?
     passwords = data_bag_item(databag_name, 'passwords')
-    postgress_pass = passwords['postgres_password']
+    postgres_pass = passwords['postgres_password']
   end
 end
 
@@ -30,7 +30,7 @@ template '/etc/httpd-wade/conf.d/wade.environment.conf' do
   source 'wade.environment.conf.erb'
   variables(
     postgres_user: node['wade']['web']['postgres_user'],
-    postgres_pass: postgress_pass,
+    postgres_pass: postgres_pass,
     postgres_addr: node['wade']['web']['postgres_addr'],
     postgres_db: node['wade']['web']['postgres_db']
   )
