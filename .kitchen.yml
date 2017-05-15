@@ -1,0 +1,38 @@
+---
+driver:
+  name: vagrant
+  box_download_insecure: true
+  network:
+    - ['forwarded_port', {guest: 80, host: 8080, auto_correct: true}]
+    - ['forwarded_port', {guest: 443, host: 8443, auto_correct: true}]
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-6.8
+  - name: centos-7.3
+
+suites:
+  - name: web-centos-6
+    excludes:
+        - centos-7.3
+    verifier:
+        inspec_tests:
+            - name: default-centos-6
+              path: test/integration/web/default-centos-6/inspec
+    run_list:
+      - recipe[wade::install_httpd]
+      - recipe[php]
+      - recipe[wade::configure_php]
+      - recipe[wade::install_website]
+    data_path: './test/files'
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
+    attributes: {
+        'wade' : {
+            'web' : {
+                'postgres_addr' : 'localhost'
+            }
+        }
+    }

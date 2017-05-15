@@ -1,0 +1,19 @@
+LoadModule ssl_module modules/mod_ssl.so
+LoadModule php5_module modules/libphp5.so
+LoadModule substitute_module modules/mod_substitute.so
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule headers_module modules/mod_headers.so
+
+<VirtualHost *:80>
+  Include conf.d/wade.common.conf
+</VirtualHost>
+
+<% if @ssl_active == true %>
+Listen 443
+<VirtualHost *:443>
+  SSLEngine on
+  SSLCertificateFile <%= @ssl_cert_location %>
+  SSLCertificateKeyFile <%= @ssl_key_location %>
+  Include conf.d/wade.common.conf
+</VirtualHost>
+<% end %>

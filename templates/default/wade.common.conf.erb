@@ -1,0 +1,32 @@
+
+Include conf.d/wade.environment.conf
+ServerName <%= node['hostname'] %>
+
+AddType application/x-httpd-php .php
+AddType text/css .css
+AddType application/x-javascript .js
+AddType application/xslt+xml .xsl
+
+DocumentRoot /var/www/html
+
+<Directory "/var/www/html">
+  Options Indexes FollowSymLinks MultiViews
+  AllowOverride None
+</Directory>
+
+<Location "/">
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME}.php -f
+	RewriteRule ^(.*)$ $1.php [NC,L]
+
+	SetOutputFilter INFLATE;SUBSTITUTE;DEFLATE
+	AddOutputFilterByType SUBSTITUTE text/html
+	AddOutputFilterByType SUBSTITUTE text/xml
+	AddOutputFilterByType SUBSTITUTE text/css
+	AddOutputFilterByType SUBSTITUTE application/xml
+	AddOutputFilterByType SUBSTITUTE application/json
+	AddOutputFilterByType SUBSTITUTE application/javascript
+	Substitute "s|http://localhost||i"
+	Substitute "s|https://localhost||i"
+</Location>
