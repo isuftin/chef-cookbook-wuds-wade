@@ -15,8 +15,10 @@ WaDE Apache server will use to connect to the backing Postgres database. Default
 WaDE Apache server will use to connect to the backing Postgres database. Default: `localhost`
 - `default['wade']['web']['postgres_db']` (String): The default Postgres database
 that is used by the WaDE project. Default: `WADE`
-- `default['wade']['web']['rpm']['url']` (String): The URL where the cookbook will
-try to find the RPM from which to install the website. Default: `file:///tmp/kitchen/data/wade-web.rpm`
+- `default['wade']['web']['version']` (String): The version of the web application to deploy.
+Leaving this blank will deploy the latest snapshot. Default: `0.0.1-1`
+- `default['wade']['yum']['repo']['baseurl']` (String): The location of the USGS
+Water RPM server. Default: `file:///tmp/kitchen/data/wade-web.rpm`
 - `default['wade']['web']['ssl']['active']` (Boolean): Defines whether or not the
 Apache web server will serve content over HTTPS. Default: `true`
 - `default['wade']['web']['ssl']['cert']['location']` (String): Where the Apache
@@ -46,3 +48,7 @@ This cookbook can use an encrypted databag to pull the password from. The databa
 should contain an item with the id of "passwords". The item should contain a key
 named "postgres_password". The value of this key/value pair will be used as the
 password for the database. See [the unencrypted example](https://github.com/USGS-CIDA/chef-cookbook-wuds-wade/blob/bdd313b84eb7c4022558836398cf1cfecc29c9eb/test/integration/default/passwords.json).
+
+#### Versioning
+
+The Chef cookbook follows standard semantic versioning.
