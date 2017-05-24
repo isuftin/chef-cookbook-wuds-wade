@@ -15,7 +15,7 @@ end
   end
 end
 
-postgress_pass = 'postgres'
+postgres_pass = 'postgres'
 databag_name = node['wade']['databag']['databag_name']
 if Chef::Config[:solo]
   Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')

@@ -10,7 +10,7 @@ yum_repository 'USGS_WATER_RPM' do
   action :create
 end
 
-package 'Install WaDE RPM' do
+yum_package 'wade' do
   package_name 'wade-web'
   arch 'noarch'
   version node['wade']['web']['version'] if node['wade']['web']['version'] != ''
