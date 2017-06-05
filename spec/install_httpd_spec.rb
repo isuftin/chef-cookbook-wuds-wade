@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'wade::install_httpd' do
 
-
   let(:chef_run) { ChefSpec::SoloRunner.new(
     platform: 'centos',
     version: '6.8',
@@ -16,5 +15,5 @@ describe 'wade::install_httpd' do
     )
   end
 
-  
+
 end
