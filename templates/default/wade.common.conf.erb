@@ -1,6 +1,6 @@
 
 Include conf.d/wade.environment.conf
-ServerName <%= node['hostname'] %>
+ServerName <%= node['wade']['web']['hostname'] %>
 
 AddType application/x-httpd-php .php
 AddType text/css .css
