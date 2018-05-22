@@ -3,6 +3,9 @@
 # Recipe:: install_httpd
 # Description:: Sets up Apache HTTPD service
 
+cert_location = '/var/www/wade.cert'
+key_location = '/var/www/wade.key'
+
 httpd_service 'wade' do
   contact node['wade']['web']['contact']
   mpm 'prefork'
@@ -38,6 +41,23 @@ template '/etc/httpd-wade/conf.d/wade.environment.conf' do
   notifies :restart, 'httpd_service[wade]', :delayed
 end
 
+remote_file cert_location do
+  source node['wade']['web']['ssl']['cert']['location']
+  owner 'apache'
+  group 'apache'
+  mode 0o600
+  only_if { node['wade']['web']['ssl']['active'] == true }
+end
+
+remote_file key_location do
+  source node['wade']['web']['ssl']['key']['location']
+  owner 'apache'
+  group 'apache'
+  mode 0o600
+  sensitive true
+  only_if { node['wade']['web']['ssl']['active'] == true }
+end
+
 template '/etc/httpd-wade/conf.d/wade.common.conf' do
   source 'wade.common.conf.erb'
   notifies :restart, 'httpd_service[wade]', :delayed
@@ -48,8 +68,8 @@ httpd_config 'wade' do
   source 'wade.apache.conf.erb'
   variables(
     ssl_active: node['wade']['web']['ssl']['active'],
-    ssl_cert_location: node['wade']['web']['ssl']['cert']['location'],
-    ssl_key_location: node['wade']['web']['ssl']['key']['location']
+    ssl_cert_location: cert_location,
+    ssl_key_location: key_location
   )
   notifies :restart, 'httpd_service[wade]', :delayed
 end
